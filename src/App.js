@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Home from "./pages/Home"
 import Admin from "./pages/Admin"
-import Signin from "./pages/Signin"
+import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import { Link, Route, Switch } from "react-router-dom";
 import { AuthContext } from "./AuthContext"
@@ -23,7 +23,7 @@ const App = () => {
           {
             isLoggedIn() ?
             <Link onClick={logout}>Logout</Link> :
-            <Link to="/signin">Login</Link>
+            <Link to="/login">Login</Link>
           }
         </li>
         {
@@ -35,7 +35,7 @@ const App = () => {
       </ul>
       <Switch>
         <ProtectedRoute path="/admin" component={Admin} />
-        <Route exact path="/signin" component={Signin} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/" component={Home} />
       </Switch>

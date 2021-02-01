@@ -11,40 +11,30 @@ const AuthContextProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(userToken);
   const [error, setError] = useState(false);
 
-  const login = (email, password) => {
+  const setCookieOrError = (res) => {
+    const { status, data } = res;
+
+    if (status === 200) {
+      const { token } = data;
+      cookies.set("token", token);
+      setAuthToken(token);
+    } else {
+      setError(true);
+    }   
+  }
+
+  const login = ({ email, password }) => {
     axios
       .post(`${API_URL}/login`, { email, password })
-      .then((res) => {
-        if (res.status === 200) {
-          const token = res.headers["x-auth-token"];
-          cookies.set("token", token);
-          setAuthToken(token);
-        } else {
-          setError(true);
-        }
-      })
-      .catch((e) => {
-        console.log(e)
-        setError(true);
-      });
+      .then((res) => setCookieOrError(res))
+      .catch((e) => setError(true));
   };
 
   const register = ({ email, username, password }) => {
     axios
       .post(`${API_URL}/register`, { email, password, username })
-      .then((res) => {
-        if (res.status === 200) {
-          const { token } = res.data;
-          cookies.set("token", token);
-          setAuthToken(token);
-        } else {
-          setError(true);
-        }
-      })
-      .catch((e) => {
-        console.log(e)
-        setError(true);
-      });
+      .then((res) => setCookieOrError(res))
+      .catch((e) => setError(true));
   };
 
   const logout = () => {
