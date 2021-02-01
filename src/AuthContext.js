@@ -2,6 +2,8 @@ import React, { createContext, useState } from "react"
 import cookies from "js-cookie";
 import axios from 'axios';
 
+const API_URL = 'http://localhost:5000/auth';
+
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
@@ -9,12 +11,9 @@ const AuthContextProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(userToken);
   const [error, setError] = useState(false);
 
-  const login = (email, pass) => {
+  const login = (email, password) => {
     axios
-      .post("https://pokefight-wbs.herokuapp.com/auth/login", {
-        email: login,
-        pass,
-      })
+      .post(`${API_URL}/login`, { email, password })
       .then((res) => {
         if (res.status === 200) {
           const token = res.headers["x-auth-token"];
@@ -30,15 +29,12 @@ const AuthContextProvider = ({ children }) => {
       });
   };
 
-  const register = (email, pass) => {
+  const register = ({ email, username, password }) => {
     axios
-      .post("https://pokefight-wbs.herokuapp.com/auth/login", {
-        email: login,
-        pass,
-      })
+      .post(`${API_URL}/register`, { email, password, username })
       .then((res) => {
         if (res.status === 200) {
-          const token = res.headers["x-auth-token"];
+          const { token } = res.data;
           cookies.set("token", token);
           setAuthToken(token);
         } else {
@@ -53,6 +49,7 @@ const AuthContextProvider = ({ children }) => {
 
   const logout = () => {
     cookies.remove('token');
+    setAuthToken('');
   }
 
   const isLoggedIn = () => {
