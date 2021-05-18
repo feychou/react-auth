@@ -12,8 +12,8 @@ const App = () => (
     <Nav />
     <Switch>
       <ProtectedRoute path="/admin" component={Admin} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/signup" component={Signup} />
+      <Route path="/login" component={Login} />
+      <Route path='/signup' component={Signup} />
       <Route exact path="/" component={Home} />
     </Switch>
   </div>

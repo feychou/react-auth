@@ -1,15 +1,20 @@
-import React, { createContext, useState } from "react"
-import cookies from "js-cookie";
+import React, { createContext, useState } from 'react';
+import cookies from 'js-cookie';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/auth';
-
 export const AuthContext = createContext();
+
+const API_URL = 'http://localhost:5000/auth';
 
 const AuthContextProvider = ({ children }) => {
   const userToken = cookies.get('token');
   const [authToken, setAuthToken] = useState(userToken);
   const [error, setError] = useState(false);
+
+  console.log(authToken)
+  const isLoggedIn = () => {
+    return authToken ? true : false;
+  }
 
   const setCookieOrError = (res) => {
     const { status, data } = res;
@@ -20,21 +25,21 @@ const AuthContextProvider = ({ children }) => {
       setAuthToken(token);
     } else {
       setError(true);
-    }   
+    } 
   }
 
-  const login = ({ email, password }) => {
+  const login = ({ password, email }) => {
     axios
-      .post(`${API_URL}/login`, { email, password })
+      .post(`${API_URL}/login`, { password, email })
       .then((res) => setCookieOrError(res))
-      .catch((e) => setError(true));
-  };
+      .catch((err) => setError(true))
+  }
 
-  const register = ({ email, username, password }) => {
+  const register = ({ username, password, email }) => {
     axios
-      .post(`${API_URL}/register`, { email, password, username })
+      .post(`${API_URL}/register`, { username, password, email })
       .then((res) => setCookieOrError(res))
-      .catch((e) => setError(true));
+      .catch((err) => setError(true))
   };
 
   const logout = () => {
@@ -42,19 +47,17 @@ const AuthContextProvider = ({ children }) => {
     setAuthToken('');
   }
 
-  const isLoggedIn = () => {
-    return authToken ? true : false;
-  }
-
   return (
-    <AuthContext.Provider value={{
-      authError: error,
-      isLoggedIn,
-      login,
-      register,
-      logout
-    }}>
-      {children}
+    <AuthContext.Provider
+      value={{
+        authToken,
+        isLoggedIn,
+        login,
+        register,
+        logout
+      }}
+    >
+      { children }
     </AuthContext.Provider>
   )
 }
