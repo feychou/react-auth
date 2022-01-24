@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
 
@@ -12,8 +12,8 @@ const Nav = () => {
       <li>
         {
           isLoggedIn() ?
-          <Link onClick={logout}>Logout</Link> :
-          <Link to='login'>Login</Link>
+          <span className="Logout" onClick={logout}>Logout</span> :
+          <Link to='/login'>Login</Link>
         }
       </li>
       {

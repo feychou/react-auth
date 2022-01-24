@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import { Redirect } from 'react-router-dom';
+import {useContext} from 'react';
+import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
 import useFormData from '../useFormData';
 
@@ -12,7 +12,7 @@ const Login = () => {
   const { login, isLoggedIn } = useContext(AuthContext)
   const [ formData, handleChange ] = useFormData(initialFormData)
 
-  if (isLoggedIn()) return <Redirect to="/"/>
+  if (isLoggedIn()) return <Navigate to="/" replace />
 
   return (
     <>

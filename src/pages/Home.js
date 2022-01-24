@@ -1,7 +1,10 @@
-import React from "react";
+import { useContext } from 'react';
+import { AuthContext } from '../AuthContext';
 
-const Home = () => (
-  <div>Hello intruder!</div>
-);
+const Home = () => {
+  const { isLoggedIn } = useContext(AuthContext)
+
+  return <div>{isLoggedIn() ? 'Hello friend!' : 'Hello intruder!'}</div>
+};
 
 export default Home;

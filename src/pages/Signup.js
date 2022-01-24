@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
 
 import useFormData from '../useFormData';
 import { AuthContext } from '../AuthContext';
@@ -14,7 +14,7 @@ const Signup = () => {
   const [ formData, handleChange ] = useFormData(initialFormData)
   const { register, isLoggedIn } = useContext(AuthContext);
 
-  if (isLoggedIn()) return <Redirect to='/' />
+  if (isLoggedIn()) return <Navigate to='/' replace />
 
   return (
     <>
@@ -26,8 +26,8 @@ const Signup = () => {
       />
       <input
         type="text"
-        placeholder="username"
-        name="username"
+        placeholder="name"
+        name="name"
         onChange={handleChange}
       />
       <input

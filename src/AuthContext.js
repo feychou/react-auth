@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import cookies from 'js-cookie';
 import axios from 'axios';
 
@@ -11,7 +11,6 @@ const AuthContextProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(userToken);
   const [error, setError] = useState(false);
 
-  console.log(authToken)
   const isLoggedIn = () => {
     return authToken ? true : false;
   }
@@ -35,9 +34,9 @@ const AuthContextProvider = ({ children }) => {
       .catch((err) => setError(true))
   }
 
-  const register = ({ username, password, email }) => {
+  const register = ({ name, password, email }) => {
     axios
-      .post(`${API_URL}/register`, { username, password, email })
+      .post(`${API_URL}/register`, { name, password, email })
       .then((res) => setCookieOrError(res))
       .catch((err) => setError(true))
   };

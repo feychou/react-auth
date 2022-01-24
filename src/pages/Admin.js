@@ -1,5 +1,3 @@
-import React from "react";
-
 const Admin = () => (
   <>
     <h3>You made it!</h3>
